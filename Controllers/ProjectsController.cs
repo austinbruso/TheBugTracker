@@ -13,9 +13,11 @@ using TheBugTrackerProject.Services.Interfaces;
 using TheBugTrackerProject.Models.Enums;
 using BugTrackerProject.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TheBugTrackerProject.Controllers
 {
+    [Authorize]
     public class ProjectsController : Controller
     {
         private readonly IBTRolesService _rolesService;
@@ -39,7 +41,7 @@ namespace TheBugTrackerProject.Controllers
             _companyInfoService = companyInfoService;
         }
 
-      
+
         // GET: My Projects
         public async Task<IActionResult> MyProjects()
         {
@@ -58,7 +60,7 @@ namespace TheBugTrackerProject.Controllers
 
             int companyId = User.Identity.GetCompanyId().Value;
 
-            if(User.IsInRole(nameof(Roles.Admin)) || User.IsInRole(nameof(Roles.ProjectManager)))
+            if (User.IsInRole(nameof(Roles.Admin)) || User.IsInRole(nameof(Roles.ProjectManager)))
             {
                 projects = await _companyInfoService.GetAllProjectsAsync(companyId);
             } else
@@ -94,11 +96,11 @@ namespace TheBugTrackerProject.Controllers
 
             Project project = await _projectService.GetProjectByIdAsync(id.Value, companyId);
 
-// Remember that the _context should not be used directly in the controller so....     
-// Edit the following code to use the service layer. 
-// Your goal is to return the 'project' from the databse
-// with the Id equal to the parameter passed in.               
-// This is the only modification necessary for this method/action.     
+            // Remember that the _context should not be used directly in the controller so....     
+            // Edit the following code to use the service layer. 
+            // Your goal is to return the 'project' from the databse
+            // with the Id equal to the parameter passed in.               
+            // This is the only modification necessary for this method/action.     
 
 
 
@@ -110,6 +112,7 @@ namespace TheBugTrackerProject.Controllers
             return View(project);
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UnassignedProjects()
         {
             int companyId = User.Identity.GetCompanyId().Value;
@@ -122,6 +125,7 @@ namespace TheBugTrackerProject.Controllers
 
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public async Task<IActionResult> AssignPM(int projectId)
         {
@@ -136,19 +140,22 @@ namespace TheBugTrackerProject.Controllers
 
         }
 
+        [Authorize]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AssignPM(AssignPMViewModel model)
         {
-            if(!string.IsNullOrEmpty(model.PMID))
+            if (!string.IsNullOrEmpty(model.PMID))
             {
                 await _projectService.AddProjectManagerAsync(model.PMID, model.Project.Id);
 
                 return RedirectToAction(nameof(Details), new { id = model.Project.Id });
             }
-            return RedirectToAction(nameof(AssignPM), new { projectId = model.Project.Id});
+            return RedirectToAction(nameof(AssignPM), new { projectId = model.Project.Id });
         }
 
 
+        [Authorize(Roles = "Admin, ProjectManager")]
         [HttpGet]
         public async Task<IActionResult> AssignMembers(int id)
         {
@@ -169,7 +176,7 @@ namespace TheBugTrackerProject.Controllers
             return View(model);
 
         }
-
+        [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AssignMembers(ProjectMembersViewModel model)
@@ -198,6 +205,8 @@ namespace TheBugTrackerProject.Controllers
             return RedirectToAction(nameof(AssignMembers), new { id = model.Project.Id });
         }
         // GET: Projects/Create
+
+        [Authorize(Roles = "Admin, ProjectManager")]
         public async Task<IActionResult> Create()
         {
             int companyId = User.Identity.GetCompanyId().Value;
@@ -215,6 +224,7 @@ namespace TheBugTrackerProject.Controllers
         // POST: Projects/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin, ProjectManager")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(AddProjectWithPMViewModel model)
@@ -262,6 +272,7 @@ namespace TheBugTrackerProject.Controllers
         }
 
         // GET: Projects/Edit/5
+        [Authorize(Roles = "Admin, ProjectManager")]
         public async Task<IActionResult> Edit(int? id)
         {
             int companyId = User.Identity.GetCompanyId().Value;
@@ -280,6 +291,7 @@ namespace TheBugTrackerProject.Controllers
         // POST: Projects/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [Authorize(Roles = "Admin, ProjectManager")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(AddProjectWithPMViewModel model)
@@ -323,9 +335,11 @@ namespace TheBugTrackerProject.Controllers
             return RedirectToAction("Edit");
             }
 
-        
+
 
         // GET: Projects/Archive/5
+        [Authorize(Roles = "Admin, ProjectManager")]
+
         public async Task<IActionResult> Archive( int? id)
         {
             if (id == null)
@@ -347,6 +361,7 @@ namespace TheBugTrackerProject.Controllers
         }
 
         // POST: Projects/Archive/5
+        [Authorize(Roles = "Admin, ProjectManager")]
         [HttpPost, ActionName("Archive")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> ArchiveConfirmed(int id)
@@ -362,6 +377,7 @@ namespace TheBugTrackerProject.Controllers
 
 
         // GET: Projects/Restore/5
+        [Authorize(Roles = "Admin, ProjectManager")]
         public async Task<IActionResult> Restore(int? id)
         {
             if (id == null)
@@ -381,6 +397,7 @@ namespace TheBugTrackerProject.Controllers
         }
 
         // POST: Projects/Restore/5
+        [Authorize(Roles = "Admin, ProjectManager")]
         [HttpPost, ActionName("Restore")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RestoreConfirmed(int id)
