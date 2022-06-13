@@ -18,6 +18,7 @@ using TheBugTrackerProject.Models.ViewModel;
 
 namespace TheBugTrackerProject.Controllers
 {
+    [Authorize]
     public class TicketsController : Controller
     {
         private readonly UserManager<BTUser> _userManager;
@@ -106,7 +107,7 @@ namespace TheBugTrackerProject.Controllers
             }
         }
 
-           
+        [Authorize(Roles = "Admin, ProjectManager")]
         [HttpGet]
         public async Task<IActionResult> AssignDeveloper(int id)
         {
@@ -118,6 +119,7 @@ namespace TheBugTrackerProject.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = "Admin, ProjectManager")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AssignDeveloper(AssignDeveloperViewModel model)
@@ -260,6 +262,7 @@ namespace TheBugTrackerProject.Controllers
         }
 
         // GET: Tickets/Edit/5
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -399,6 +402,8 @@ namespace TheBugTrackerProject.Controllers
         }
 
         // GET: Tickets/Archive/5
+        [Authorize(Roles = "Admin, ProjectManager")]
+
         public async Task<IActionResult> Archive(int? id)
         {
             if (id == null)
@@ -418,7 +423,22 @@ namespace TheBugTrackerProject.Controllers
             return View(ticket);
         }
 
+        // POST: Tickets/Archive/5
+        [Authorize(Roles = "Admin, ProjectManager")]
+
+        [HttpPost, ActionName("Archive")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ArchiveConfirmed(int id)
+        {
+            Ticket ticket = await _ticketService.GetTicketByIdAsync(id);
+            ticket.Archived = true;
+            await _ticketService.UpdateTicketAsync(ticket);
+            return RedirectToAction(nameof(Index));
+        }
+
+
         // GET: Tickets/Restore/5
+        [Authorize(Roles = "Admin, ProjectManager")]
         public async Task<IActionResult> Restore(int? id)
         {
             if (id == null)
@@ -437,19 +457,8 @@ namespace TheBugTrackerProject.Controllers
 
             return View(ticket);
         }
-
-        // POST: Tickets/Archive/5
-        [HttpPost, ActionName("Archive")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ArchiveConfirmed(int id)
-        {
-            Ticket ticket = await _ticketService.GetTicketByIdAsync(id);
-            ticket.Archived = true;
-            await _ticketService.UpdateTicketAsync(ticket);
-            return RedirectToAction(nameof(Index));
-        }
-
         // POST: Tickets/Restore/5
+        [Authorize(Roles = "Admin, ProjectManager")]
         [HttpPost, ActionName("Restore")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> RestoreConfirmed(int id)
