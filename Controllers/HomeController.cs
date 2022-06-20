@@ -11,6 +11,7 @@ using TheBugTrackerProject.Models;
 using TheBugTrackerProject.Models.Enums;
 using TheBugTrackerProject.Models.ViewModel;
 using TheBugTrackerProject.Services.Interfaces;
+using TheBugTrackerProject.Models.ChartModels;
 
 namespace BugTrackerProject.Controllers
 {
@@ -96,6 +97,33 @@ namespace BugTrackerProject.Controllers
             }
 
             return Json(chartData);
+        }
+        [HttpPost]
+        public async Task<JsonResult> AmCharts()
+        {
+
+            AmChartData amChartData = new();
+            List<AmItem> amItems = new();
+
+            int companyId = User.Identity.GetCompanyId().Value;
+
+            List<Project> projects = (await _companyInfoService.GetAllProjectsAsync(companyId)).Where(p => p.Archived == false).ToList();
+
+            foreach (Project project in projects)
+            {
+                AmItem item = new();
+
+                item.Project = project.Name;
+                item.Tickets = project.Tickets.Count;
+                item.Developers = (await _projectService.GetProjectMembersByRoleAsync(project.Id, nameof(Roles.Developer))).Count();
+
+                amItems.Add(item);
+            }
+
+            amChartData.Data = amItems.ToArray();
+
+
+            return Json(amChartData.Data);
         }
     }
 }
