@@ -17,13 +17,11 @@
         <div class="row vh-100 overflow-auto">
             <div class="col-12 col-sm-3 col-xl-2 px-sm-2 px-0 bg-dark d-flex sticky-top">
                 <div class="d-flex flex-sm-column flex-row flex-grow-1 align-items-center align-items-sm-start px-3 pt-2 text-white">
-                    <a asp-controller="Home" asp-action="Dashboard" class="d-flex align-items-center pb-sm-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                        <span class="fs-5"><span class="d-none d-sm-inline">Bug Tracker</span></span>
-                    </a>
-                    <partial name="_LoginPartial" />
-
+                  
                     @if (SignInManager.IsSignedIn(User))
                     {
+                        @Html.Partial("_LoginPartial")
+
                         <ul class="nav nav-pills flex-sm-column flex-row flex-nowrap flex-shrink-1 flex-sm-grow-0 flex-grow-1 mb-sm-auto mb-0 justify-content-center align-items-center align-items-sm-start" id="menu">
                             <li class="nav-item">
                                 <a asp-area="" asp-controller="Home" asp-action="Dashboard" class="nav-link px-sm-0 px-2">
@@ -69,13 +67,13 @@
                                     {
                                         <li><a class="dropdown-item" asp-area="" asp-controller="Tickets" asp-action="MyTickets">My Tickets</a></li>
                                     }
-                                        <li><a class="dropdown-item" asp-area="" asp-controller="Tickets" asp-action="AllTickets">All Tickets</a></li>
-                                        <li><a class="dropdown-item" asp-area="" asp-controller="Tickets" asp-action="ArchivedTickets">Archived Tickets</a></li>
-                                        @if (User.IsInRole(nameof(Roles.Admin)) || User.IsInRole(nameof(Roles.ProjectManager)))
-                                        {
-                                            <li><a class="dropdown-item" asp-area="" asp-controller="Tickets" asp-action="UnassignedTickets">Unassigned Tickets</a></li>
-                                        }
-                                    </ul>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Tickets" asp-action="AllTickets">All Tickets</a></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Tickets" asp-action="ArchivedTickets">Archived Tickets</a></li>
+                                    @if (User.IsInRole(nameof(Roles.Admin)) || User.IsInRole(nameof(Roles.ProjectManager)))
+                                    {
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="Tickets" asp-action="UnassignedTickets">Unassigned Tickets</a></li>
+                                    }
+                                </ul>
                             </li>
                             <li>
                                 <a asp-area="" asp-controller="Notifications" asp-action="Index" class="nav-link px-sm-0 px-2">
@@ -90,11 +88,7 @@
                 <main class="row">
                     @RenderBody()
                 </main>
-                <footer class="row bg-light py-4 mt-auto">
-                    <div class="container">
-                        &copy; 2022 - Bug Tracker - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                    </div>
-                </footer>
+                
             </div>
         </div>
     </div>
