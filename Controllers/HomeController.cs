@@ -12,7 +12,7 @@ using TheBugTrackerProject.Models.Enums;
 using TheBugTrackerProject.Models.ViewModel;
 using TheBugTrackerProject.Services.Interfaces;
 using TheBugTrackerProject.Models.ChartModels;
-
+using Microsoft.AspNetCore.Identity;
 
 namespace BugTrackerProject.Controllers
 {
@@ -21,19 +21,35 @@ namespace BugTrackerProject.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IBTCompanyInfoService _companyInfoService;
         private readonly IBTProjectService _projectService;
+        private readonly SignInManager<BTUser> _signInManager;
 
-        public HomeController(ILogger<HomeController> logger, IBTCompanyInfoService companyInfoService, IBTProjectService projectService)
+        public HomeController(ILogger<HomeController> logger, IBTCompanyInfoService companyInfoService, IBTProjectService projectService, SignInManager<BTUser> signInManager = null)
         {
             _logger = logger;
             _companyInfoService = companyInfoService;
             _projectService = projectService;
+            _signInManager = signInManager;
         }
 
-        public IActionResult Index()
+        [HttpGet]
+        public IActionResult LandingPage()
         {
+            if (_signInManager.IsSignedIn(User))
+            {
+                RedirectToAction("Dashboard");
+            }
+
             return View();
         }
 
+        [HttpGet]
+        public IActionResult Index()
+        {
+            return RedirectToAction("LandingPage");
+        }
+
+
+        [HttpGet]
 
         public async Task<IActionResult> Dashboard()
         {
