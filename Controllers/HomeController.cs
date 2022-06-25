@@ -31,23 +31,19 @@ namespace BugTrackerProject.Controllers
             _signInManager = signInManager;
         }
 
+
         [HttpGet]
-        public IActionResult LandingPage()
+        public IActionResult Index()
         {
             if (_signInManager.IsSignedIn(User))
             {
-                RedirectToAction("Dashboard");
+                return RedirectToAction("Dashboard");
             }
 
             return View();
         }
 
-        [HttpGet]
-        public IActionResult Index()
-        {
-            return RedirectToAction("LandingPage");
-        }
-
+    
 
         [HttpGet]
 
@@ -72,6 +68,7 @@ namespace BugTrackerProject.Controllers
             return View();
         }
 
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
@@ -95,6 +92,8 @@ namespace BugTrackerProject.Controllers
 
             return Json(chartData);
         }
+
+
 
         [HttpPost]
         public async Task<JsonResult> GglProjectPriority()
