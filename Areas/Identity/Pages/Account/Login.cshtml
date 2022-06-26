@@ -5,13 +5,20 @@
 
 
 @{
-    ViewData["Title"] = "Demo Log in";
+    ViewData["Title"] = "Log in";
 }
 
+<style>
+    .background {
+        background: url(/img/pexels-fauxels-3183150.jpg) no-repeat center center fixed;
+        background-size: cover;
+        min-height: 100vh;
+    }
+</style>
 
-<div class="row">
-    <div class="col-md-4">
-        <section>
+    <div class="container-fluid background ">
+        <div class="card pt-5 " style=" width: 25rem; margin-left: 30rem; padding: 20px; margin-top: 20rem; border-radius: 3%;">
+            
             <form id="account" method="post">
                 <h4>Login to your account</h4>
                 <div asp-validation-summary="All" class="text-danger"></div>
@@ -70,11 +77,9 @@
                     <button type="submit" class="btn btn-primary" asp-route-user="submitter">Demo Submitter</button>
                 </div>
             </form>
-
-        </section>
-    </div>
-
-</div>
+            </div>
+        </div>
+    
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
