@@ -69,7 +69,7 @@ namespace TheBugTrackerProject.Data
             //Custom  Bug Tracker Seed Methods
             await SeedRolesAsync(roleManagerSvc);
             await SeedDefaultCompaniesAsync(dbContextSvc);
-            await SeedDefaultUsersAsync(userManagerSvc);
+            await SeedDefaultUserAsync(userManagerSvc);
             await SeedDemoUsersAsync(userManagerSvc);
             await SeedDefaultTicketTypeAsync(dbContextSvc);
             await SeedDefaultTicketStatusAsync(dbContextSvc);
@@ -224,10 +224,10 @@ namespace TheBugTrackerProject.Data
 
 
 
-        public static async Task SeedDefaultUsersAsync(UserManager<BTUser> userManager)
+        public static async Task SeedDefaultUserAsync(UserManager<BTUser> userManager)
         {
             //Seed Default Admin User
-            var defaultUser = new BTUser
+            BTUser defaultUser = new BTUser
             {
                 UserName = "btadmin1@bugtracker.com",
                 Email = "btadmin1@bugtracker.com",
@@ -238,7 +238,7 @@ namespace TheBugTrackerProject.Data
             };
             try
             {
-                var user = await userManager.FindByEmailAsync(defaultUser.Email);
+                BTUser user = await userManager.FindByEmailAsync(defaultUser.Email);
                 if (user == null)
                 {
                     await userManager.CreateAsync(defaultUser, "Abc&123!");
@@ -254,339 +254,339 @@ namespace TheBugTrackerProject.Data
                 throw;
             }
 
-            //Seed Default Admin User
-            defaultUser = new BTUser
-            {
-                UserName = "btadmin2@bugtracker.com",
-                Email = "btadmin2@bugtracker.com",
-                FirstName = "Steve",
-                LastName = "Appuser",
-                EmailConfirmed = true,
-                CompanyId = company2Id
-            };
-            try
-            {
-                var user = await userManager.FindByEmailAsync(defaultUser.Email);
-                if (user == null)
-                {
-                    await userManager.CreateAsync(defaultUser, "Abc&123!");
-                    await userManager.AddToRoleAsync(defaultUser, Roles.Admin.ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("*************  ERROR  *************");
-                Console.WriteLine("Error Seeding Default Admin User.");
-                Console.WriteLine(ex.Message);
-                Console.WriteLine("***********************************");
-                throw;
-            }
+            ////Seed Default Admin User
+            //defaultUser = new BTUser
+            //{
+            //    UserName = "btadmin2@bugtracker.com",
+            //    Email = "btadmin2@bugtracker.com",
+            //    FirstName = "Steve",
+            //    LastName = "Appuser",
+            //    EmailConfirmed = true,
+            //    CompanyId = company2Id
+            //};
+            //try
+            //{
+            //    BTUser user = await userManager.FindByEmailAsync(defaultUser.Email);
+            //    if (user == null)
+            //    {
+            //        await userManager.CreateAsync(defaultUser, "Abc&123!");
+            //        await userManager.AddToRoleAsync(defaultUser, Roles.Admin.ToString());
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine("*************  ERROR  *************");
+            //    Console.WriteLine("Error Seeding Default Admin User.");
+            //    Console.WriteLine(ex.Message);
+            //    Console.WriteLine("***********************************");
+            //    throw;
+            //}
 
 
-            //Seed Default ProjectManager1 User
-            defaultUser = new BTUser
-            {
-                UserName = "ProjectManager1@bugtracker.com",
-                Email = "ProjectManager1@bugtracker.com",
-                FirstName = "John",
-                LastName = "Appuser",
-                EmailConfirmed = true,
-                CompanyId = company1Id
-            };
-            try
-            {
-                var user = await userManager.FindByEmailAsync(defaultUser.Email);
-                if (user == null)
-                {
-                    await userManager.CreateAsync(defaultUser, "Abc&123!");
-                    await userManager.AddToRoleAsync(defaultUser, Roles.ProjectManager.ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("*************  ERROR  *************");
-                Console.WriteLine("Error Seeding Default ProjectManager1 User.");
-                Console.WriteLine(ex.Message);
-                Console.WriteLine("***********************************");
-                throw;
-            }
+            ////Seed Default ProjectManager1 User
+            //defaultUser = new BTUser
+            //{
+            //    UserName = "ProjectManager1@bugtracker.com",
+            //    Email = "ProjectManager1@bugtracker.com",
+            //    FirstName = "John",
+            //    LastName = "Appuser",
+            //    EmailConfirmed = true,
+            //    CompanyId = company1Id
+            //};
+            //try
+            //{
+            //    BTUser user = await userManager.FindByEmailAsync(defaultUser.Email);
+            //    if (user == null)
+            //    {
+            //        await userManager.CreateAsync(defaultUser, "Abc&123!");
+            //        await userManager.AddToRoleAsync(defaultUser, Roles.ProjectManager.ToString());
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine("*************  ERROR  *************");
+            //    Console.WriteLine("Error Seeding Default ProjectManager1 User.");
+            //    Console.WriteLine(ex.Message);
+            //    Console.WriteLine("***********************************");
+            //    throw;
+            //}
 
 
-            //Seed Default ProjectManager2 User
-            defaultUser = new BTUser
-            {
-                UserName = "ProjectManager2@bugtracker.com",
-                Email = "ProjectManager2@bugtracker.com",
-                FirstName = "Jane",
-                LastName = "Appuser",
-                EmailConfirmed = true,
-                CompanyId = company2Id
-            };
-            try
-            {
-                var user = await userManager.FindByEmailAsync(defaultUser.Email);
-                if (user == null)
-                {
-                    await userManager.CreateAsync(defaultUser, "Abc&123!");
-                    await userManager.AddToRoleAsync(defaultUser, Roles.ProjectManager.ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("*************  ERROR  *************");
-                Console.WriteLine("Error Seeding Default ProjectManager2 User.");
-                Console.WriteLine(ex.Message);
-                Console.WriteLine("***********************************");
-                throw;
-            }
+            ////Seed Default ProjectManager2 User
+            //defaultUser = new BTUser
+            //{
+            //    UserName = "ProjectManager2@bugtracker.com",
+            //    Email = "ProjectManager2@bugtracker.com",
+            //    FirstName = "Jane",
+            //    LastName = "Appuser",
+            //    EmailConfirmed = true,
+            //    CompanyId = company2Id
+            //};
+            //try
+            //{
+            //    BTUser user = await userManager.FindByEmailAsync(defaultUser.Email);
+            //    if (user == null)
+            //    {
+            //        await userManager.CreateAsync(defaultUser, "Abc&123!");
+            //        await userManager.AddToRoleAsync(defaultUser, Roles.ProjectManager.ToString());
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine("*************  ERROR  *************");
+            //    Console.WriteLine("Error Seeding Default ProjectManager2 User.");
+            //    Console.WriteLine(ex.Message);
+            //    Console.WriteLine("***********************************");
+            //    throw;
+            //}
 
 
-            //Seed Default Developer1 User
-            defaultUser = new BTUser
-            {
-                UserName = "Developer1@bugtracker.com",
-                Email = "Developer1@bugtracker.com",
-                FirstName = "Elon",
-                LastName = "Appuser",
-                EmailConfirmed = true,
-                CompanyId = company1Id
-            };
-            try
-            {
-                var user = await userManager.FindByEmailAsync(defaultUser.Email);
-                if (user == null)
-                {
-                    await userManager.CreateAsync(defaultUser, "Abc&123!");
-                    await userManager.AddToRoleAsync(defaultUser, Roles.Developer.ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("*************  ERROR  *************");
-                Console.WriteLine("Error Seeding Default Developer1 User.");
-                Console.WriteLine(ex.Message);
-                Console.WriteLine("***********************************");
-                throw;
-            }
+            ////Seed Default Developer1 User
+            //defaultUser = new BTUser
+            //{
+            //    UserName = "Developer1@bugtracker.com",
+            //    Email = "Developer1@bugtracker.com",
+            //    FirstName = "Elon",
+            //    LastName = "Appuser",
+            //    EmailConfirmed = true,
+            //    CompanyId = company1Id
+            //};
+            //try
+            //{
+            //    BTUser user = await userManager.FindByEmailAsync(defaultUser.Email);
+            //    if (user == null)
+            //    {
+            //        await userManager.CreateAsync(defaultUser, "Abc&123!");
+            //        await userManager.AddToRoleAsync(defaultUser, Roles.Developer.ToString());
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine("*************  ERROR  *************");
+            //    Console.WriteLine("Error Seeding Default Developer1 User.");
+            //    Console.WriteLine(ex.Message);
+            //    Console.WriteLine("***********************************");
+            //    throw;
+            //}
 
 
-            //Seed Default Developer2 User
-            defaultUser = new BTUser
-            {
-                UserName = "Developer2@bugtracker.com",
-                Email = "Developer2@bugtracker.com",
-                FirstName = "James",
-                LastName = "Appuser",
-                EmailConfirmed = true,
-                CompanyId = company2Id
-            };
-            try
-            {
-                var user = await userManager.FindByEmailAsync(defaultUser.Email);
-                if (user == null)
-                {
-                    await userManager.CreateAsync(defaultUser, "Abc&123!");
-                    await userManager.AddToRoleAsync(defaultUser, Roles.Developer.ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("*************  ERROR  *************");
-                Console.WriteLine("Error Seeding Default Developer2 User.");
-                Console.WriteLine(ex.Message);
-                Console.WriteLine("***********************************");
-                throw;
-            }
+            ////Seed Default Developer2 User
+            //defaultUser = new BTUser
+            //{
+            //    UserName = "Developer2@bugtracker.com",
+            //    Email = "Developer2@bugtracker.com",
+            //    FirstName = "James",
+            //    LastName = "Appuser",
+            //    EmailConfirmed = true,
+            //    CompanyId = company2Id
+            //};
+            //try
+            //{
+            //    BTUser user = await userManager.FindByEmailAsync(defaultUser.Email);
+            //    if (user == null)
+            //    {
+            //        await userManager.CreateAsync(defaultUser, "Abc&123!");
+            //        await userManager.AddToRoleAsync(defaultUser, Roles.Developer.ToString());
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine("*************  ERROR  *************");
+            //    Console.WriteLine("Error Seeding Default Developer2 User.");
+            //    Console.WriteLine(ex.Message);
+            //    Console.WriteLine("***********************************");
+            //    throw;
+            //}
 
 
-            //Seed Default Developer3 User
-            defaultUser = new BTUser
-            {
-                UserName = "Developer3@bugtracker.com",
-                Email = "Developer3@bugtracker.com",
-                FirstName = "Natasha",
-                LastName = "Appuser",
-                EmailConfirmed = true,
-                CompanyId = company1Id
-            };
-            try
-            {
-                var user = await userManager.FindByEmailAsync(defaultUser.Email);
-                if (user == null)
-                {
-                    await userManager.CreateAsync(defaultUser, "Abc&123!");
-                    await userManager.AddToRoleAsync(defaultUser, Roles.Developer.ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("*************  ERROR  *************");
-                Console.WriteLine("Error Seeding Default Developer3 User.");
-                Console.WriteLine(ex.Message);
-                Console.WriteLine("***********************************");
-                throw;
-            }
+            ////Seed Default Developer3 User
+            //defaultUser = new BTUser
+            //{
+            //    UserName = "Developer3@bugtracker.com",
+            //    Email = "Developer3@bugtracker.com",
+            //    FirstName = "Natasha",
+            //    LastName = "Appuser",
+            //    EmailConfirmed = true,
+            //    CompanyId = company1Id
+            //};
+            //try
+            //{
+            //    BTUser user = await userManager.FindByEmailAsync(defaultUser.Email);
+            //    if (user == null)
+            //    {
+            //        await userManager.CreateAsync(defaultUser, "Abc&123!");
+            //        await userManager.AddToRoleAsync(defaultUser, Roles.Developer.ToString());
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine("*************  ERROR  *************");
+            //    Console.WriteLine("Error Seeding Default Developer3 User.");
+            //    Console.WriteLine(ex.Message);
+            //    Console.WriteLine("***********************************");
+            //    throw;
+            //}
 
 
-            //Seed Default Developer4 User
-            defaultUser = new BTUser
-            {
-                UserName = "Developer4@bugtracker.com",
-                Email = "Developer4@bugtracker.com",
-                FirstName = "Carol",
-                LastName = "Appuser",
-                EmailConfirmed = true,
-                CompanyId = company2Id
-            };
-            try
-            {
-                var user = await userManager.FindByEmailAsync(defaultUser.Email);
-                if (user == null)
-                {
-                    await userManager.CreateAsync(defaultUser, "Abc&123!");
-                    await userManager.AddToRoleAsync(defaultUser, Roles.Developer.ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("*************  ERROR  *************");
-                Console.WriteLine("Error Seeding Default Developer4 User.");
-                Console.WriteLine(ex.Message);
-                Console.WriteLine("***********************************");
-                throw;
-            }
+            ////Seed Default Developer4 User
+            //defaultUser = new BTUser
+            //{
+            //    UserName = "Developer4@bugtracker.com",
+            //    Email = "Developer4@bugtracker.com",
+            //    FirstName = "Carol",
+            //    LastName = "Appuser",
+            //    EmailConfirmed = true,
+            //    CompanyId = company2Id
+            //};
+            //try
+            //{
+            //    BTUser user = await userManager.FindByEmailAsync(defaultUser.Email);
+            //    if (user == null)
+            //    {
+            //        await userManager.CreateAsync(defaultUser, "Abc&123!");
+            //        await userManager.AddToRoleAsync(defaultUser, Roles.Developer.ToString());
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine("*************  ERROR  *************");
+            //    Console.WriteLine("Error Seeding Default Developer4 User.");
+            //    Console.WriteLine(ex.Message);
+            //    Console.WriteLine("***********************************");
+            //    throw;
+            //}
 
 
-            //Seed Default Developer5 User
-            defaultUser = new BTUser
-            {
-                UserName = "Developer5@bugtracker.com",
-                Email = "Developer5@bugtracker.com",
-                FirstName = "Tony",
-                LastName = "Appuser",
-                EmailConfirmed = true,
-                CompanyId = company1Id
-            };
-            try
-            {
-                var user = await userManager.FindByEmailAsync(defaultUser.Email);
-                if (user == null)
-                {
-                    await userManager.CreateAsync(defaultUser, "Abc&123!");
-                    await userManager.AddToRoleAsync(defaultUser, Roles.Developer.ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("*************  ERROR  *************");
-                Console.WriteLine("Error Seeding Default Developer5 User.");
-                Console.WriteLine(ex.Message);
-                Console.WriteLine("***********************************");
-                throw;
-            }
+            ////Seed Default Developer5 User
+            //defaultUser = new BTUser
+            //{
+            //    UserName = "Developer5@bugtracker.com",
+            //    Email = "Developer5@bugtracker.com",
+            //    FirstName = "Tony",
+            //    LastName = "Appuser",
+            //    EmailConfirmed = true,
+            //    CompanyId = company1Id
+            //};
+            //try
+            //{
+            //    BTUser user = await userManager.FindByEmailAsync(defaultUser.Email);
+            //    if (user == null)
+            //    {
+            //        await userManager.CreateAsync(defaultUser, "Abc&123!");
+            //        await userManager.AddToRoleAsync(defaultUser, Roles.Developer.ToString());
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine("*************  ERROR  *************");
+            //    Console.WriteLine("Error Seeding Default Developer5 User.");
+            //    Console.WriteLine(ex.Message);
+            //    Console.WriteLine("***********************************");
+            //    throw;
+            //}
 
-            //Seed Default Developer6 User
-            defaultUser = new BTUser
-            {
-                UserName = "Developer6@bugtracker.com",
-                Email = "Developer6@bugtracker.com",
-                FirstName = "Bruce",
-                LastName = "Appuser",
-                EmailConfirmed = true,
-                CompanyId = company2Id
-            };
-            try
-            {
-                var user = await userManager.FindByEmailAsync(defaultUser.Email);
-                if (user == null)
-                {
-                    await userManager.CreateAsync(defaultUser, "Abc&123!");
-                    await userManager.AddToRoleAsync(defaultUser, Roles.Developer.ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("*************  ERROR  *************");
-                Console.WriteLine("Error Seeding Default Developer5 User.");
-                Console.WriteLine(ex.Message);
-                Console.WriteLine("***********************************");
-                throw;
-            }
+            ////Seed Default Developer6 User
+            //defaultUser = new BTUser
+            //{
+            //    UserName = "Developer6@bugtracker.com",
+            //    Email = "Developer6@bugtracker.com",
+            //    FirstName = "Bruce",
+            //    LastName = "Appuser",
+            //    EmailConfirmed = true,
+            //    CompanyId = company2Id
+            //};
+            //try
+            //{
+            //    BTUser user = await userManager.FindByEmailAsync(defaultUser.Email);
+            //    if (user == null)
+            //    {
+            //        await userManager.CreateAsync(defaultUser, "Abc&123!");
+            //        await userManager.AddToRoleAsync(defaultUser, Roles.Developer.ToString());
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine("*************  ERROR  *************");
+            //    Console.WriteLine("Error Seeding Default Developer5 User.");
+            //    Console.WriteLine(ex.Message);
+            //    Console.WriteLine("***********************************");
+            //    throw;
+            //}
 
-            //Seed Default Submitter1 User
-            defaultUser = new BTUser
-            {
-                UserName = "Submitter1@bugtracker.com",
-                Email = "Submitter1@bugtracker.com",
-                FirstName = "Scott",
-                LastName = "Appuser",
-                EmailConfirmed = true,
-                CompanyId = company1Id
-            };
-            try
-            {
-                var user = await userManager.FindByEmailAsync(defaultUser.Email);
-                if (user == null)
-                {
-                    await userManager.CreateAsync(defaultUser, "Abc&123!");
-                    await userManager.AddToRoleAsync(defaultUser, Roles.Submitter.ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("*************  ERROR  *************");
-                Console.WriteLine("Error Seeding Default Submitter1 User.");
-                Console.WriteLine(ex.Message);
-                Console.WriteLine("***********************************");
-                throw;
-            }
+            ////Seed Default Submitter1 User
+            //defaultUser = new BTUser
+            //{
+            //    UserName = "Submitter1@bugtracker.com",
+            //    Email = "Submitter1@bugtracker.com",
+            //    FirstName = "Scott",
+            //    LastName = "Appuser",
+            //    EmailConfirmed = true,
+            //    CompanyId = company1Id
+            //};
+            //try
+            //{
+            //    BTUser user = await userManager.FindByEmailAsync(defaultUser.Email);
+            //    if (user == null)
+            //    {
+            //        await userManager.CreateAsync(defaultUser, "Abc&123!");
+            //        await userManager.AddToRoleAsync(defaultUser, Roles.Submitter.ToString());
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine("*************  ERROR  *************");
+            //    Console.WriteLine("Error Seeding Default Submitter1 User.");
+            //    Console.WriteLine(ex.Message);
+            //    Console.WriteLine("***********************************");
+            //    throw;
+            //}
 
 
-            //Seed Default Submitter2 User
-            defaultUser = new BTUser
-            {
-                UserName = "Submitter2@bugtracker.com",
-                Email = "Submitter2@bugtracker.com",
-                FirstName = "Sue",
-                LastName = "Appuser",
-                EmailConfirmed = true,
-                CompanyId = company2Id
-            };
-            try
-            {
-                var user = await userManager.FindByEmailAsync(defaultUser.Email);
-                if (user == null)
-                {
-                    await userManager.CreateAsync(defaultUser, "Abc&123!");
-                    await userManager.AddToRoleAsync(defaultUser, Roles.Submitter.ToString());
-                }
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("*************  ERROR  *************");
-                Console.WriteLine("Error Seeding Default Submitter2 User.");
-                Console.WriteLine(ex.Message);
-                Console.WriteLine("***********************************");
-                throw;
-            }
+            ////Seed Default Submitter2 User
+            //defaultUser = new BTUser
+            //{
+            //    UserName = "Submitter2@bugtracker.com",
+            //    Email = "Submitter2@bugtracker.com",
+            //    FirstName = "Sue",
+            //    LastName = "Appuser",
+            //    EmailConfirmed = true,
+            //    CompanyId = company2Id
+            //};
+            //try
+            //{
+            //    BTUser user = await userManager.FindByEmailAsync(defaultUser.Email);
+            //    if (user == null)
+            //    {
+            //        await userManager.CreateAsync(defaultUser, "Abc&123!");
+            //        await userManager.AddToRoleAsync(defaultUser, Roles.Submitter.ToString());
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+            //    Console.WriteLine("*************  ERROR  *************");
+            //    Console.WriteLine("Error Seeding Default Submitter2 User.");
+            //    Console.WriteLine(ex.Message);
+            //    Console.WriteLine("***********************************");
+            //    throw;
+            //}
 
         }
 
         public static async Task SeedDemoUsersAsync(UserManager<BTUser> userManager)
         {
             //Seed Demo Admin User
-            var defaultUser = new BTUser
+            BTUser defaultUser = new()
             {
                 UserName = "demoadmin@bugtracker.com",
                 Email = "demoadmin@bugtracker.com",
-                FirstName = "Jack",
+                FirstName = "Admin",
                 LastName = "Admin",
                 EmailConfirmed = true,
                 CompanyId = company1Id
             };
             try
             {
-                var user = await userManager.FindByEmailAsync(defaultUser.Email);
+                BTUser user = await userManager.FindByEmailAsync(defaultUser.Email);
                 if (user == null)
                 {
                     await userManager.CreateAsync(defaultUser, "Abc&123!");
@@ -610,14 +610,14 @@ namespace TheBugTrackerProject.Data
             {
                 UserName = "demopm@bugtracker.com",
                 Email = "demopm@bugtracker.com",
-                FirstName = "Demo",
+                FirstName = "PM",
                 LastName = "ProjectManager",
                 EmailConfirmed = true,
                 CompanyId = company2Id
             };
             try
             {
-                var user = await userManager.FindByEmailAsync(defaultUser.Email);
+                BTUser user = await userManager.FindByEmailAsync(defaultUser.Email);
                 if (user == null)
                 {
                     await userManager.CreateAsync(defaultUser, "Abc&123!");
@@ -640,14 +640,14 @@ namespace TheBugTrackerProject.Data
             {
                 UserName = "demodev@bugtracker.com",
                 Email = "demodev@bugtracker.com",
-                FirstName = "Demo",
+                FirstName = "Developer",
                 LastName = "Developer",
                 EmailConfirmed = true,
                 CompanyId = company2Id
             };
             try
             {
-                var user = await userManager.FindByEmailAsync(defaultUser.Email);
+                BTUser user = await userManager.FindByEmailAsync(defaultUser.Email);
                 if (user == null)
                 {
                     await userManager.CreateAsync(defaultUser, "Abc&123!");
@@ -670,14 +670,14 @@ namespace TheBugTrackerProject.Data
             {
                 UserName = "demosub@bugtracker.com",
                 Email = "demosub@bugtracker.com",
-                FirstName = "Demo",
+                FirstName = "Submitter",
                 LastName = "Submitter",
                 EmailConfirmed = true,
                 CompanyId = company2Id
             };
             try
             {
-                var user = await userManager.FindByEmailAsync(defaultUser.Email);
+                BTUser user = await userManager.FindByEmailAsync(defaultUser.Email);
                 if (user == null)
                 {
                     await userManager.CreateAsync(defaultUser, "Abc&123!");
@@ -700,14 +700,14 @@ namespace TheBugTrackerProject.Data
             {
                 UserName = "demonew@bugtracker.com",
                 Email = "demonew@bugtracker.com",
-                FirstName = "Demo",
+                FirstName = "NewUser",
                 LastName = "NewUser",
                 EmailConfirmed = true,
                 CompanyId = company2Id
             };
             try
             {
-                var user = await userManager.FindByEmailAsync(defaultUser.Email);
+                BTUser user = await userManager.FindByEmailAsync(defaultUser.Email);
                 if (user == null)
                 {
                     await userManager.CreateAsync(defaultUser, "Abc&123!");

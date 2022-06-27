@@ -186,28 +186,7 @@ namespace BugTrackerProject.Areas.Identity.Pages.Account
             {
                 _logger.LogWarning("User account locked out.");
                 return RedirectToPage("./Lockout");
-            }
-            if (user == "admin")
-            {
-                email = "demoadmin@bugtracker.com";
-                password = "Abc&123!";
-            }
-            else if (user == "PM")
-            {
-                email = "demopm@bugtracker.com";
-                password = "Abc&123!";
-            }
-            else if (user == "developer")
-            {
-                email = "demodev@bugtracker.com";
-                password = "Abc&123!";
-            }
-            else if (user == "submitter")
-            {
-                email = "demosub@bugtracker.com";
-                password = "Abc&123!";
-            }
-            else if (ModelState.IsValid)
+            } else if(ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
@@ -219,26 +198,23 @@ namespace BugTrackerProject.Areas.Identity.Pages.Account
                 }
                 if (result.RequiresTwoFactor)
                 {
-                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, Input.RememberMe });
                 }
                 if (result.IsLockedOut)
                 {
                     _logger.LogWarning("User account locked out.");
                     return RedirectToPage("./Lockout");
                 }
-                 else 
-                    {
-                        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                        return Page();
-                    }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return Page();
                 }
-
-
-                // If we got this far, something failed, redisplay form
-                return Page();
             }
+
+
+            // If we got this far, something failed, redisplay form
+            return Page();
         }
     }
-
-
-
+}

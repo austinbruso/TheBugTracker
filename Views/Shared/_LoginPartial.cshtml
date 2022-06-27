@@ -9,7 +9,7 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-        <span class="d-none d-sm-inline mx-1">@btUser.FirstName</span>
+        <span class="d-none d-sm-inline mx-1">@btUser.UserName</span>
     </a>
     <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
         <li><a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Profile</a></li>

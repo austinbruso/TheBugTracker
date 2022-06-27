@@ -15,7 +15,7 @@
                 </div>
                 <div class="card-body">
                     <form method="post" asp-action="AssignDeveloper" asp-controller="Tickets">
-                        <input asp-for="Ticket.Id" hidden/>
+                        <input hidden asp-for="Ticket.Id"/>
                         <p>Description: @Model.Ticket.Description</p>
 
                         <div class="form-group">
