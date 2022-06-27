@@ -3,7 +3,6 @@
 @using TheBugTrackerProject.Services.Interfaces
 @using TheBugTrackerProject.Models.Enums
 
-
 @inject UserManager<BTUser> UserManager
 @inject IBTRolesService RolesService
 <!-- Styles -->
@@ -19,13 +18,11 @@
     }
 </style>
 
+
 @{
     ViewData["Title"] = "Dashboard";
     BTUser btUser = await UserManager.GetUserAsync(User);
-
 }
-
-
 
 <h1>Dashboard</h1>
 <a href="javascript:void(0);">
@@ -54,8 +51,8 @@
         <div class="row mt-2">
 
             <div class="col-lg-3 col-md-6 col-sm-6">
-                <a asp-action="AllProjects" asp-controller="Projects" style="text-decoration:none">
-                    <div class="card text-center bg-info">
+                <a asp-action="AllProjects" asp-controller="Projects" style="text-decoration:none;">
+                    <div class="card text-center bg-info pt-5 pb-5" style="">
                         <div class="body">
                             <div class="p-15 text-light">
                                 <h3>@Model.Projects.Count()</h3>
@@ -67,7 +64,7 @@
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <a asp-action="AllTickets" asp-controller="Tickets" style="text-decoration:none">
-                    <div class="card text-center bg-secondary">
+                    <div class="card text-center bg-secondary  pt-5 pb-5">
                         <div class="body">
                             <div class="p-15 text-light">
 
@@ -79,7 +76,7 @@
                 </a>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="card text-center bg-warning">
+                <div class="card text-center bg-warning  pt-5 pb-5">
                     <div class="body">
                         <div class="p-15 text-light">
                             <h3>@Model.Tickets.Where(t => string.IsNullOrEmpty(t.DeveloperUserId)).Count()</h3>
@@ -89,7 +86,7 @@
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-6">
-                <div class="card text-center bg-dark">
+                <div class="card text-center bg-dark  pt-5 pb-5">
                     <div class="body">
                         <div class="p-15 text-light">
                             <h3>
@@ -182,7 +179,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    -*
+
                                     @* Table body *@
 
                                     @foreach (var project in Model.Projects.OrderByDescending(d => d.EndDate))

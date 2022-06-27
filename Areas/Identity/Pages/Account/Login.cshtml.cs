@@ -18,18 +18,20 @@ namespace BugTrackerProject.Areas.Identity.Pages.Account
 {
     public class LoginModel : PageModel
     {
+        private readonly UserManager<BTUser> _userManager;
         private readonly SignInManager<BTUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
 
-        public LoginModel(SignInManager<BTUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<BTUser> signInManager,
+            ILogger<LoginModel> logger,
+            UserManager<BTUser> userManager)
         {
+            _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
         }
 
         [BindProperty]
-        public string DemoUser { get; set; }
-
         public InputModel Input { get; set; }
 
         public IList<AuthenticationScheme> ExternalLogins { get; set; }
@@ -53,23 +55,99 @@ namespace BugTrackerProject.Areas.Identity.Pages.Account
             public bool RememberMe { get; set; }
         }
 
-
-
         public async Task OnGetAsync(string returnUrl = null)
         {
+            if (!string.IsNullOrEmpty(ErrorMessage))
+            {
+                ModelState.AddModelError(string.Empty, ErrorMessage);
+            }
 
             returnUrl ??= Url.Content("~/");
 
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
+            ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+
+            ReturnUrl = returnUrl;
         }
 
-        public async Task<IActionResult> OnPostAsync(string user)
+        //public async Task<IActionResult> OnPostAsync1(string user, string returnUrl = null)
+        //{
+        //    returnUrl ??= ("~/Home/Dashboard");
+        //    string email = "";
+        //    string password = "";
+
+
+        //    if (user == "admin")
+        //    {
+        //        email = "demoadmin@bugtracker.com";
+        //        password = "Abc&123!";
+        //    }
+        //    else if (user == "PM")
+        //    {
+        //        email = "demopm@bugtracker.com";
+        //        password = "Abc&123!";
+        //    }
+        //    else if (user == "developer")
+        //    {
+        //        email = "demodev@bugtracker.com";
+        //        password = "Abc&123!";
+        //    }
+        //    else if (user == "submitter")
+        //    {
+        //        email = "demosub@bugtracker.com";
+        //        password = "Abc&123!";
+        //    }
+
+
+        //    var result = await _signInManager.PasswordSignInAsync(email, password, false, lockoutOnFailure: false);
+        //    if (result.Succeeded)
+        //    {
+        //        _logger.LogInformation("User logged in.");
+        //        return LocalRedirect(returnUrl);
+        //    }
+        //    if (result.RequiresTwoFactor)
+        //    {
+        //        return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = false });
+        //    }
+        //    if (result.IsLockedOut)
+        //    {
+        //        _logger.LogWarning("User account locked out.");
+        //        return RedirectToPage("./Lockout");
+        //    }
+        //    if (user == "admin")
+        //    {
+        //        email = "demoadmin@bugtracker.com";
+        //        password = "Abc&123!";
+        //    }
+        //    else if (user == "PM")
+        //    {
+        //        email = "demopm@bugtracker.com";
+        //        password = "Abc&123!";
+        //    }
+        //    else if (user == "developer")
+        //    {
+        //        email = "demodev@bugtracker.com";
+        //        password = "Abc&123!";
+        //    }
+        //    else if (user == "submitter")
+        //    {
+        //        email = "demosub@bugtracker.com";
+        //        password = "Abc&123!";
+        //    }
+        //    {
+        //        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+        //        return Page();
+        //    }
+        //}
+        public async Task<IActionResult> OnPostAsync(string user, string returnUrl = null)
+
         {
-            string returnUrl = "~/Home/Dashboard";
+            returnUrl ??= ("~/Home/Dashboard");
             string email = "";
             string password = "";
+
 
 
             if (user == "admin")
@@ -93,29 +171,74 @@ namespace BugTrackerProject.Areas.Identity.Pages.Account
                 password = "Abc&123!";
             }
 
-            var result = await _signInManager.PasswordSignInAsync(email, password, false, lockoutOnFailure: false);
-            if (result.Succeeded)
+
+            var newResult = await _signInManager.PasswordSignInAsync(email, password, false, lockoutOnFailure: false);
+            if (newResult.Succeeded)
             {
                 _logger.LogInformation("User logged in.");
                 return LocalRedirect(returnUrl);
             }
-            if (result.RequiresTwoFactor)
+            if (newResult.RequiresTwoFactor)
             {
                 return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = false });
             }
-            if (result.IsLockedOut)
+            if (newResult.IsLockedOut)
             {
                 _logger.LogWarning("User account locked out.");
                 return RedirectToPage("./Lockout");
             }
-            else
+            if (user == "admin")
             {
-                ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                email = "demoadmin@bugtracker.com";
+                password = "Abc&123!";
+            }
+            else if (user == "PM")
+            {
+                email = "demopm@bugtracker.com";
+                password = "Abc&123!";
+            }
+            else if (user == "developer")
+            {
+                email = "demodev@bugtracker.com";
+                password = "Abc&123!";
+            }
+            else if (user == "submitter")
+            {
+                email = "demosub@bugtracker.com";
+                password = "Abc&123!";
+            }
+            else if (ModelState.IsValid)
+            {
+                // This doesn't count login failures towards account lockout
+                // To enable password failures to trigger account lockout, set lockoutOnFailure: true
+                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                if (result.Succeeded)
+                {
+                    _logger.LogInformation("User logged in.");
+                    return LocalRedirect(returnUrl);
+                }
+                if (result.RequiresTwoFactor)
+                {
+                    return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
+                }
+                if (result.IsLockedOut)
+                {
+                    _logger.LogWarning("User account locked out.");
+                    return RedirectToPage("./Lockout");
+                }
+                 else 
+                    {
+                        ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                        return Page();
+                    }
+                }
+
+
+                // If we got this far, something failed, redisplay form
                 return Page();
             }
         }
-
     }
 
-}
+
 

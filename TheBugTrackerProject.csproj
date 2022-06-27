@@ -38,6 +38,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Areas\Identity\Pages\Account\DemoLogin.cshtml.cs" />
     <Compile Remove="Controllers\ProjectPrioritiesController.cs" />
     <Compile Remove="Controllers\TicketAttachmentsController.cs" />
     <Compile Remove="Controllers\TicketCommentsController.cs" />
@@ -45,6 +46,10 @@
     <Compile Remove="Controllers\TicketPrioritiesController.cs" />
     <Compile Remove="Controllers\TicketStatusController.cs" />
     <Compile Remove="Controllers\TicketTypesController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Areas\Identity\Pages\Account\DemoLogin.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -59,6 +64,21 @@
     <PackageReference Include="MimeKit" Version="3.2.0" />
     <PackageReference Include="Npgsql" Version="5.0.10" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="5.0.10" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\" />
+    <Folder Include="Models\" />
+    <Folder Include="wwwroot\css\" />
+    <Folder Include="wwwroot\images\" />
+    <Folder Include="wwwroot\js\" />
+    <Folder Include="wwwroot\lib\bootstrap\" />
+    <Folder Include="wwwroot\lib\bootstrap\dist\js\" />
+    <Folder Include="wwwroot\lib\jquery-validation-unobtrusive\" />
+    <Folder Include="wwwroot\lib\jquery-validation\" />
+    <Folder Include="wwwroot\lib\jquery-validation\dist\" />
+    <Folder Include="wwwroot\lib\jquery\" />
+    <Folder Include="wwwroot\lib\jquery\dist\" />
   </ItemGroup>
 
 </Project>

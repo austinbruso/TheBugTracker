@@ -579,7 +579,7 @@ namespace TheBugTrackerProject.Data
             {
                 UserName = "demoadmin@bugtracker.com",
                 Email = "demoadmin@bugtracker.com",
-                FirstName = "Demo",
+                FirstName = "Jack",
                 LastName = "Admin",
                 EmailConfirmed = true,
                 CompanyId = company1Id
