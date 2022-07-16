@@ -161,7 +161,7 @@ namespace TheBugTrackerProject.Data
             try
             {
                 IList<Project> projects = new List<Project>() {
-                     new Project()
+                      new Project()
                      {
                          CompanyId = company1Id,
                          Name = "Build a Personal Porfolio",
